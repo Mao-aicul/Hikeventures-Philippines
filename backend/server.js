@@ -10,7 +10,7 @@ const PUBLIC_DIR = path.join(ROOT, "public");
 const DATA_DIR = path.join(__dirname, "data");
 const DB_PATH = process.env.HV_DB_PATH || path.join(DATA_DIR, "hikeventures.sqlite");
 const PORT = Number(process.env.PORT || 3000);
-const HOST = process.env.HOST || "127.0.0.1";
+const HOST = process.env.HOST || "0.0.0.0";
 const TRUST_PROXY = process.env.TRUST_PROXY === "true";
 const SESSION_DAYS = 7;
 const MAX_BODY_BYTES = 64 * 1024;
