@@ -1,0 +1,14 @@
+{
+  "name": "hikeventures-philippines",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hikeventures Philippines website and backend",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "test": "node --test backend/*.test.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

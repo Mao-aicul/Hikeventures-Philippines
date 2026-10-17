@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hikeventures Philippines</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+<header id="nav"></header>
+<main>
+  <div class="view" data-view="home">
+    <section class="hero tall" style="--img:url(asset/home_mainImg.png)">
+      <h1 id="home-greeting" hidden aria-live="polite"></h1>
+      <p class="hero-copy">Find your next summit, explore breathtaking Philippine trails, and make every hike unforgettable.</p>
+    </section>
+    <section class="wrap">
+      <h2 class="title">Upcoming <span>Hikes</span></h2>
+      <p class="sub">It's always a great time to explore the breathtaking beauty of Philippine mountains, rivers, and waterfalls!</p>
+      <div class="slider" id="hikes"></div>
+      <p class="center"><a class="btn" href="#mountain">Show more</a></p>
+      <h2 class="title">Featured Craters</h2>
+      <div class="slider panel" id="cr"></div>
+      <p class="center"><a class="btn" href="#crater">Show more</a></p>
+    </section>
+  </div>
+
+  <div class="view" data-view="mountain" hidden>
+    <section class="hero" style="--img:url(asset/mountain_mainImg.png)">
+      <h1>HIKING DESTINATIONS</h1>
+      <p>Explore destinations and filter by difficulty level.</p>
+    </section>
+    <section class="wrap">
+      <h2 class="title left">Filter by difficulty</h2>
+      <div class="filters">
+        <button data-lv="1">Beginner</button>
+        <button data-lv="2">Intermediate</button>
+        <button data-lv="3">Expert</button>
+        <button id="more">More filter <img src="https://img.icons8.com/?size=100&id=l0ZLaxGr5xQV&format=png&color=FFFFFF" alt="" onerror="this.remove()"></button>
+      </div>
+      <div class="slider" id="mountain-list"></div>
+    </section>
+  </div>
+
+  <div class="view" data-view="crater" hidden>
+    <section class="hero" id="hero" style="--img:url(asset/mountain_mainImg.png)">
+      <h1>EXPLORE CRATER TOURIST</h1>
+      <button class="ghost lg" id="apply">Apply to be a crater!</button>
+    </section>
+    <section class="wrap" id="crater-list">
+      <div class="slider panel" id="craters"></div>
+    </section>
+    <section class="wrap" id="prof" hidden></section>
+  </div>
+
+  <div class="view" data-view="login" hidden>
+    <section class="auth" style="--img:url(asset/home_mainImg.png)">
+      <div class="authbox">
+        <div class="brand"><img src="asset/logo.png" alt="" onerror="this.remove()">Hikeventures<br>Philippines</div>
+        <div>
+          <form id="lf">
+            <h1>LOGIN</h1>
+            <label>Email<input type="email" name="email" placeholder="Enter your email" required></label>
+            <label>Password<input type="password" name="pw" placeholder="Enter your password" minlength="8" maxlength="128" required></label>
+            <p class="err" id="lerr"></p>
+            <div class="row2"><button>Login</button><button type="button" id="toSignup">Sign-up</button></div>
+          </form>
+          <form id="sf" hidden>
+            <h1>SIGN-UP</h1>
+            <label>Full name<input name="fname" placeholder="Enter your full name" minlength="2" required></label>
+            <label>Email<input type="email" name="email" placeholder="Enter your email" required></label>
+            <label>Password<input type="password" name="pw" placeholder="Enter your password" minlength="8" maxlength="128" required></label>
+            <label>Confirm password<input type="password" name="pw2" placeholder="Confirm your password" minlength="8" maxlength="128" required></label>
+            <p class="err" id="serr"></p>
+            <div class="row2"><button>Sign-up</button><button type="button" id="toLogin">Back to login</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-view="booking" hidden>
+    <section class="wrap">
+      <h2 class="title left">Current Bookings</h2>
+      <div id="cur"></div>
+      <h2 class="title left">Past Bookings</h2>
+      <div id="past"></div>
+    </section>
+  </div>
+
+  <div class="view" data-view="account" hidden>
+    <section class="wrap">
+      <div class="phead" id="acct"></div>
+
+      <div class="grid2">
+        <form class="pad box" id="nf">
+          <h3>Change name</h3>
+          <label>Full name<input name="fname" minlength="2" required></label>
+          <p class="err" id="nmsg"></p>
+          <button class="red">Save name</button>
+        </form>
+        <form class="pad box" id="pf">
+          <h3>Change password</h3>
+          <label>Current password<input type="password" name="old" required></label>
+          <label>New password<input type="password" name="pw" minlength="8" maxlength="128" required></label>
+          <label>Confirm new password<input type="password" name="pw2" minlength="8" maxlength="128" required></label>
+          <p class="err" id="pmsg"></p>
+          <button class="red">Save password</button>
+        </form>
+      </div>
+      <section class="pad box" id="inbox">
+        <h2>Messages</h2>
+        <div id="messages"></div>
+      </section>
+
+      <!-- crater tourist only -->
+      <div id="crt" hidden>
+        <h2 class="title left">Crater tourist: <span id="cname"></span></h2>
+        <form class="pad box" id="hf">
+          <h3>Add a hike</h3>
+          <label>Mountain<select name="mt" required></select></label>
+          <label>Short description<input name="tagline" required></label>
+          <div class="row2">
+            <label>Start date<input type="date" name="date" required></label>
+            <label>Number of days<input type="number" name="days" min="1" max="10" required></label>
+          </div>
+          <div class="row2">
+            <label>Price per hiker (₱)<input type="number" name="price" min="1" required></label>
+            <label>Difficulty (1-9)<input type="number" name="lv" min="1" max="9" required></label>
+          </div>
+          <div class="row2">
+            <label>Slots<input type="number" name="slots" min="1" required></label>
+            <label>Trail (optional)<input name="trail" placeholder="Ex: Ambangeg backtrail"></label>
+          </div>
+          <label>Included (one item per line)<textarea name="includedList" rows="6" placeholder="Add what's included in this hike"></textarea></label>
+          <label>Not included (one item per line)<textarea name="excludedList" rows="4" placeholder="Add what's not included in this hike"></textarea></label>
+          <p class="err" id="hmsg"></p>
+          <button class="red">Add hike</button>
+        </form>
+        <h2 class="title left">Your hikes</h2>
+        <div id="myhikes"></div>
+        <div class="pad box">
+          <h3>Remove as a crater</h3>
+          <p class="note">This removes your crater and every hike you posted.</p>
+          <div><button class="red" id="leave">Remove me as a crater</button></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
