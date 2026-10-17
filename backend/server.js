@@ -319,8 +319,20 @@ function createApp({ db = createDatabase(), publicDir = PUBLIC_DIR } = {}) {
     if (method !== "GET" && method !== "HEAD") {
       const origin = req.headers.origin;
       if (origin) {
-        const expected = `${requestIsSecure(req) ? "https" : "http"}://${req.headers.host}`;
-        if (origin !== expected) throw new HttpError(403, "Cross-origin requests are not allowed.");
+        let originHost;
+        try {
+          const parsedOrigin = new URL(origin);
+          if (!["http:", "https:"].includes(parsedOrigin.protocol) || parsedOrigin.username || parsedOrigin.password) {
+            throw new Error("Invalid origin.");
+          }
+          originHost = parsedOrigin.host;
+        } catch {
+          throw new HttpError(403, "Cross-origin requests are not allowed.");
+        }
+        const requestHost = (TRUST_PROXY && req.headers["x-forwarded-host"]
+          ? req.headers["x-forwarded-host"].split(",")[0].trim()
+          : req.headers.host).toLowerCase();
+        if (originHost.toLowerCase() !== requestHost) throw new HttpError(403, "Cross-origin requests are not allowed.");
       }
     }
 

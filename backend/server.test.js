@@ -36,12 +36,13 @@ after(async () => {
   if (directory) fs.rmSync(directory, { recursive: true, force: true });
 });
 
-async function request(endpoint, { method = "GET", body, cookie } = {}) {
+async function request(endpoint, { method = "GET", body, cookie, headers = {} } = {}) {
   const response = await fetch(`${baseUrl}${endpoint}`, {
     method,
     headers: {
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-      ...(cookie ? { Cookie: cookie } : {})
+      ...(cookie ? { Cookie: cookie } : {}),
+      ...headers
     },
     body: body === undefined ? undefined : JSON.stringify(body)
   });
@@ -65,6 +66,24 @@ test("serves the website and seeds five crater accounts and hikes", async () => 
   assert.equal(state.body.hikes.length, 13);
   assert.equal(demoAccounts.length, 5);
   assert.equal(state.body.user, null);
+});
+
+test("allows same-host HTTPS origins behind a proxy and rejects foreign origins", async () => {
+  const host = new URL(baseUrl).host;
+  const sameHost = await request("/api/auth/signup", {
+    method: "POST",
+    headers: { Origin: `https://${host}` },
+    body: { name: "Proxy Hiker", email: "proxy@example.test", password: "TestPassword-123" }
+  });
+  assert.equal(sameHost.status, 200);
+
+  const foreign = await request("/api/auth/signup", {
+    method: "POST",
+    headers: { Origin: "https://attacker.example" },
+    body: { name: "Foreign Hiker", email: "foreign@example.test", password: "TestPassword-123" }
+  });
+  assert.equal(foreign.status, 403);
+  assert.equal(foreign.body.error, "Cross-origin requests are not allowed.");
 });
 
 test("customers can book and message a creator, who can reply", async () => {
